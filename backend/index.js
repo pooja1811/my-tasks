@@ -29,39 +29,61 @@ app.post("/api/users", async function (req, res) {
 });
 
 app.get("/api/tasks/all/:userId", async function (req, res) {
-  let userId = parseInt(req.params.userId);
-  let taskDetails = await db.getCollection("tasks").find({ createdBy: userId });
-  res.json(taskDetails);
+  try {
+    let userId = parseInt(req.params.userId);
+    let taskDetails = await db
+      .getCollection("tasks")
+      .find({ createdBy: userId });
+    res.json(taskDetails);
+  } catch (err) {
+    res.status(500).json({ err });
+  }
 });
 
 app.post("/api/tasks", async function (req, res) {
-  let { name, priority, date, createdBy } = req.body;
-  await db.getCollection("tasks").insert({ name, priority, date, createdBy });
-  res.status(201).send("Created");
+  try {
+    let { name, priority, date, createdBy } = req.body;
+    await db.getCollection("tasks").insert({ name, priority, date, createdBy });
+    res.status(201).send("Created");
+  } catch (err) {
+    res.status(500).json({ err });
+  }
 });
 
 app.get("/api/tasks/:taskId", async function (req, res) {
-  let taskId = parseInt(req.params.taskId);
-  let task = await db.getCollection("tasks").find({ $loki: taskId });
-  res.json(task);
+  try {
+    let taskId = parseInt(req.params.taskId);
+    let task = await db.getCollection("tasks").find({ $loki: taskId });
+    res.json(task);
+  } catch (err) {
+    res.status(500).json({ err });
+  }
 });
 
 app.put("/api/tasks/:taskId", async function (req, res) {
-  let taskId = parseInt(req.params.taskId);
-  let { name, priority, date, createdBy } = req.body;
-  await db.getCollection("tasks").findAndUpdate({ $loki: taskId }, (item) => {
-    item.name = name;
-    item.priority = priority;
-    item.date = date;
-    item.createdBy = createdBy;
-  });
-  res.send("Updated");
+  try {
+    let taskId = parseInt(req.params.taskId);
+    let { name, priority, date, createdBy } = req.body;
+    await db.getCollection("tasks").findAndUpdate({ $loki: taskId }, (item) => {
+      item.name = name;
+      item.priority = priority;
+      item.date = date;
+      item.createdBy = createdBy;
+    });
+    res.send("Updated");
+  } catch (err) {
+    res.status(500).json({ err });
+  }
 });
 
 app.delete("/api/tasks/:taskId", async function (req, res) {
-  let taskId = parseInt(req.params.taskId);
-  await db.getCollection("tasks").findAndRemove({ $loki: taskId });
-  res.send("Deleted");
+  try {
+    let taskId = parseInt(req.params.taskId);
+    await db.getCollection("tasks").findAndRemove({ $loki: taskId });
+    res.send("Deleted");
+  } catch (err) {
+    res.status(500).json({ err });
+  }
 });
 
 app.listen(port, () => {
