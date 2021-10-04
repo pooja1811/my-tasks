@@ -1,14 +1,13 @@
-// import axios from "../../../axios";
+import axios from "../../../axios";
 import toast from "../../../plugins/mini-toastr";
 
 export const actions = {
-  async checkUserDetails({ commit }, userDetails) {
+  async checkUserDetails({ commit }, details) {
     try {
-      // await axios.post("/api/users", userDetails);
-      // toast.success("User Added successfully");
+      let userDetails = await axios.post("/api/users", details);
       commit("setUserDetails", userDetails);
     } catch (error) {
-      toast.error("Error in fetching workflows");
+      toast.error("Error in login");
     }
   },
 };

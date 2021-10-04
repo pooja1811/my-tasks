@@ -1,5 +1,5 @@
 export const mutations = {
-  setUserDetails(state, mailId) {
-    state.userDetails = { mailId, id: 1 };
+  setUserDetails(state, userDetails) {
+    state.userDetails = userDetails;
   },
 };

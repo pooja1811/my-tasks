@@ -117,7 +117,6 @@ export default {
 
   created() {
     if (this.selectedTaskId) {
-      console.log("this.selectedTaskId", this.selectedTaskId);
       this.getSelectedTaskDetails(this.selectedTaskId);
     }
   },
@@ -127,15 +126,19 @@ export default {
     ...mapMutations("tasks", ["setSelectedTaskDetails"]),
 
     submit() {
+      let taskData = {
+        ...this.taskDetails,
+        createdBy: this.userDetails.$loki,
+      };
       if (this.selectedTaskId) {
         this.editTask({
-          userId: this.userDetails.id,
-          taskData: this.taskDetails,
+          userId: this.userDetails.$loki,
+          taskData,
         });
       } else {
         this.addTask({
-          userId: this.userDetails.id,
-          taskData: this.taskDetails,
+          userId: this.userDetails.$loki,
+          taskData,
         });
       }
       this.$emit("close-model");

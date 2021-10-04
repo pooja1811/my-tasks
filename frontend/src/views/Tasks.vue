@@ -124,28 +124,23 @@ export default {
   computed: {
     ...mapState("users", ["userDetails"]),
     ...mapGetters("tasks", ["sortedTasksList"]),
-
-    workflowId() {
-      return this.$route.params.id;
-    },
   },
 
   created() {
-    this.getAllTasks(this.userDetails.id);
+    this.getAllTasks(this.userDetails.$loki);
   },
 
   methods: {
     ...mapActions("tasks", ["getAllTasks", "removeTask"]),
     editTask(taskDetails) {
-      console.log(taskDetails);
       this.showAddEditModel = true;
-      this.selectedTask = taskDetails.id;
+      this.selectedTask = taskDetails.$loki;
     },
 
     async deleteTask() {
       await this.removeTask({
-        taskId: this.taskToBeDeleted.id,
-        userId: this.userDetails.id,
+        taskId: this.taskToBeDeleted.$loki,
+        userId: this.userDetails.$loki,
       });
       this.taskToBeDeleted = null;
       this.showDeleteDialog = false;

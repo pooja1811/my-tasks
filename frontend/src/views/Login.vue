@@ -73,7 +73,7 @@ export default {
     },
 
     async submit() {
-      await this.checkUserDetails(this.emailId);
+      await this.checkUserDetails({ emailId: this.emailId });
       this.$router.push({
         name: "Tasks",
       });
