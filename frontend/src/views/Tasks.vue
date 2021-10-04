@@ -81,7 +81,7 @@
     </v-row>
     <delete-confirmation
       v-if="showDeleteDialog"
-      module="tasks"
+      module="task"
       @submit="deleteTask"
       @cancel="(showDeleteDialog = false), (taskToBeDeleted = null)"
     />
